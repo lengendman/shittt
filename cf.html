@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>杨玉超宇宙总部</title>
+    <style>
+        body {
+            background: #ffecb3;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: #ff5722;
+            color: white;
+        }
+        .video-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .comment-section {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+        }
+        #commentInput {
+            width: 300px;
+            height: 100px;
+            margin: 10px;
+        }
+        .floating-text {
+            position: fixed;
+            animation: float 5s infinite;
+            font-size: 24px;
+            color: red;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(-10deg); }
+            50% { transform: translateY(-100px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(-10deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏆 热烈欢迎来到杨玉超的魔性宇宙 🎉</h1>
+        <p>域名：www.yangyuchaoshihundan.com（待注册）</p>
+    </div>
+
+    <!-- 魔性特效 -->
+    <div class="floating-text" style="left:10%">🤪 杨玉超会喷火！</div>
+    <div class="floating-text" style="left:30%">💥 杨玉超全球后援会</div>
+    <div class="floating-text" style="left:70%">🎃 杨玉超不是憨蛋！</div>
+
+    <!-- 视频展示区 -->
+    <div class="video-section">
+        <div class="video-card">
+            <h3>🔥 杨玉超吃辣椒挑战</h3>
+            <video width="100%" controls>
+                <source src="placeholder.mp4" type="video/mp4">
+                您的浏览器不支持视频播放
+            </video>
+        </div>
+        <div class="video-card">
+            <h3>🤣 杨玉超模仿秀</h3>
+            <img src="meme.jpg" alt="表情包" style="width:100%">
+        </div>
+        <div class="video-card">
+            <h3>🎵 杨玉超主题曲</h3>
+            <audio controls style="width:100%">
+                <source src="theme.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <!-- 评论系统 -->
+    <div class="comment-section">
+        <h2>💬 粉丝留言墙（已存储本地）</h2>
+        <textarea id="commentInput" placeholder="留下你的神评论..."></textarea>
+        <button onclick="postComment()">发射评论🚀</button>
+        <div id="commentList"></div>
+    </div>
+
+    <script>
+        // 本地存储评论
+        let comments = JSON.parse(localStorage.getItem('comments')) || [];
+        
+        function postComment() {
+            const input = document.getElementById('commentInput');
+            if (input.value.trim()) {
+                comments.push({
+                    text: input.value,
+                    time: new Date().toLocaleString()
+                });
+                localStorage.setItem('comments', JSON.stringify(comments));
+                showComments();
+                input.value = '';
+            }
+        }
+
+        function showComments() {
+            const list = document.getElementById('commentList');
+            list.innerHTML = comments.map(comment => `
+                <div style="margin:10px; padding:10px; background:#ffe0b2; border-radius:5px;">
+                    <div>💥 ${comment.text}</div>
+                    <small>${comment.time}</small>
+                </div>
+            `).join('');
+        }
+
+        // 初始加载评论
+        showComments();
+
+        // 添加魔性特效
+        setInterval(() => {
+            const texts = ["杨玉超最帅！", "宇宙级憨蛋", "今天你杨玉超了吗？"];
+            const newText = document.createElement('div');
+            newText.className = 'floating-text';
+            newText.style.left = Math.random()*80 + '%';
+            newText.textContent = texts[Math.floor(Math.random()*texts.length)];
+            document.body.appendChild(newText);
+            
+            setTimeout(() => newText.remove(), 5000);
+        }, 3000);
+    </script>
+</body>
+</html>
+<div style="text-align:center; padding:20px; color:#666;">
+    <p>本网站内容纯属娱乐，如有雷同实属巧合</p>
+    <p>联系邮箱：yangyuchao@fantasy.com</p>
+</div>
+// 简单昵称系统
+const userName = prompt("请输入你的江湖称号：");
+// 使用Firebase实现实时评论
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, push } from "firebase/database";
